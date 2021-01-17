@@ -2,13 +2,18 @@ version: '3.7'
 
 services:
   php-httpd:
+    container_name: zepp-apache-php7-4
     image: php:7.4-apache
     ports:
       - 80:80
     volumes:
       - "../.:/var/www/html"
+    command:
+      bash -c 'cd /var/www/html/ZeppDockerUbuntu && cp -f base-files/.bashrc ~/.bashrc'
+      bash -c 'echo "OK"'
 
   mariadb:
+    container_name: zepp-mariadb
     image: mariadb:10.5.2
     volumes:
       - mariadb-volume:/var/lib/mysql
@@ -21,6 +26,7 @@ services:
       MYSQL_DATABASE: 'basic_table'
 
   phpmyadmin:
+    container_name: zepp-php-my-admin
     image: phpmyadmin/phpmyadmin
     links:
       - 'mariadb:db'
